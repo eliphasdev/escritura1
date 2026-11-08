@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-cursive {
+    font-family: 'Edu SA Beginner', 'Caveat', cursive, sans-serif;
+  }
+  .font-cursive-hand {
+    font-family: 'Caveat', 'Edu SA Beginner', cursive, sans-serif;
+  }
+  .font-child {
+    font-family: 'Outfit', system-ui, sans-serif;
+  }
+  .font-timer {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* School Notebook Ruling (Pauta Escolar / 4 líneas) */
+.pauta-lines-bg {
+  background-size: 100% 120px;
+  background-image: 
+    linear-gradient(to bottom, transparent 29px, rgba(148, 163, 184, 0.45) 30px, transparent 31px),
+    linear-gradient(to bottom, transparent 59px, rgba(56, 189, 248, 0.5) 60px, transparent 61px),
+    linear-gradient(to bottom, transparent 89px, rgba(148, 163, 184, 0.45) 90px, transparent 91px);
+}
+
+/* Smooth cosmic star background animation */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.animate-float {
+  animation: floatSlow 4s ease-in-out infinite;
+}
+
+@keyframes rocketPulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.6)); }
+  50% { filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.9)); }
+}
+
+.animate-rocket {
+  animation: rocketPulse 2s ease-in-out infinite;
+}

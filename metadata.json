@@ -1,0 +1,8 @@
+{
+  "name": "AstroLetras - Caligrafía Espacial con Letra Ligada",
+  "description": "Aplicación gamificada para que niños de 7 años practiquen la escritura en letra ligada con cronómetro línea a línea, superación de récords personales, control por voz y modos de cuaderno o pizarra digital.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
