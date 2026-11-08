@@ -4,8 +4,11 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const base = '/escritura1/';
+
 export default defineConfig(() => {
   return {
+    base,
     plugins: [
       react(),
       tailwindcss(),
@@ -13,7 +16,7 @@ export default defineConfig(() => {
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg'],
         manifest: {
-          id: '/',
+          id: base,
           name: 'AstroLetras - Caligrafía Espacial con Letra Ligada',
           short_name: 'AstroLetras',
           description: 'Práctica de caligrafía con letra ligada, cronómetro y control por voz para niños.',
@@ -21,24 +24,24 @@ export default defineConfig(() => {
           background_color: '#020617',
           display: 'standalone',
           orientation: 'any',
-          start_url: '/',
-          scope: '/',
+          start_url: base,
+          scope: base,
           categories: ['education', 'kids', 'games'],
           icons: [
             {
-              src: '/pwa-192x192.png',
+              src: `${base}pwa-192x192.png`,
               sizes: '192x192',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/pwa-512x512.png',
+              src: `${base}pwa-512x512.png`,
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any',
             },
             {
-              src: '/pwa-maskable-512x512.png',
+              src: `${base}pwa-maskable-512x512.png`,
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
