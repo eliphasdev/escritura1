@@ -8,10 +8,10 @@ export const INITIAL_LESSONS: Lesson[] = [
     difficulty: 'Fácil',
     description: 'Palabras cortas y enlaces suaves para calentar la mano de astronauta.',
     lines: [
-      'mi mamá me mima',
-      'el sol brilla en lo alto',
-      'veo la luna blanca',
-      'un gato duerme feliz'
+      'Mi mamá me mima.',
+      'El Sol brilla en lo alto.',
+      'Veo la Luna blanca.',
+      'Un gato duerme feliz.'
     ],
     targetTimePerLineSec: 15,
     iconName: 'Globe'
@@ -21,12 +21,12 @@ export const INITIAL_LESSONS: Lesson[] = [
     title: 'Viaje en Cohete',
     category: 'Aventura Espacial',
     difficulty: 'Fácil',
-    description: 'Frases espaciales con letras altas y bajas para practicar los límites de la pauta.',
+    description: 'Frases espaciales con letras mayúsculas, altas y bajas para practicar los límites de la pauta.',
     lines: [
-      'el cohete vuela veloz',
-      'viajamos a las estrellas',
-      'los cometas tienen cola de luz',
-      'saludamos a la tierra azul'
+      'El cohete vuela veloz.',
+      'Viajamos a las estrellas.',
+      'Los cometas tienen cola de luz.',
+      'Saludamos a la Tierra azul.'
     ],
     targetTimePerLineSec: 18,
     iconName: 'Rocket'
@@ -36,12 +36,12 @@ export const INITIAL_LESSONS: Lesson[] = [
     title: 'Paseo por la Luna',
     category: 'Aventura Espacial',
     difficulty: 'Medio',
-    description: 'Oraciones con enlaces de letras intermedias (b, v, r, l) en gravedad cero.',
+    description: 'Oraciones con mayúsculas y enlaces de letras intermedias (b, v, r, l) en gravedad cero.',
     lines: [
-      'los astronautas flotan sin peso',
-      'pisamos el suelo de polvo lunar',
-      'dejamos una huella dorada',
-      'un satélite gira en silencio'
+      'Los astronautas flotan sin peso.',
+      'Pisamos el suelo de polvo lunar.',
+      'Dejamos una huella dorada.',
+      'Un satélite gira en silencio.'
     ],
     targetTimePerLineSec: 20,
     iconName: 'Moon'
@@ -51,12 +51,12 @@ export const INITIAL_LESSONS: Lesson[] = [
     title: 'El Planeta Rojo',
     category: 'Aventura Espacial',
     difficulty: 'Medio',
-    description: 'Frases con ritmo continuo y palabras de vocabulario astronómico.',
+    description: 'Frases con nombres propios de planetas y ritmo continuo.',
     lines: [
-      'el robot explorador busca rocas',
-      'marte brilla con color rojo',
-      'descubrimos un cráter gigante',
-      'el cielo marciano es de color rosa'
+      'El robot explorador busca rocas.',
+      'Marte brilla con color rojo.',
+      'Descubrimos un cráter gigante.',
+      'El cielo de Marte es de color rosa.'
     ],
     targetTimePerLineSec: 22,
     iconName: 'Flame'
@@ -66,12 +66,12 @@ export const INITIAL_LESSONS: Lesson[] = [
     title: 'Mascotas del Espacio',
     category: 'Mundo Animal',
     difficulty: 'Fácil',
-    description: 'Divertidas oraciones sobre animales con trazo fluido y conectado.',
+    description: 'Divertidas oraciones sobre animales con trazo fluido, mayúsculas y punto final.',
     lines: [
-      'el perrito mueve su colita alegre',
-      'el delfín salta sobre las olas',
-      'las mariposas vuelan en el jardín',
-      'un pajarito canta en la rama'
+      'El perrito mueve su colita alegre.',
+      'El delfín salta sobre las olas.',
+      'Las mariposas vuelan en el jardín.',
+      'Un pajarito canta en la rama.'
     ],
     targetTimePerLineSec: 17,
     iconName: 'Sparkles'
@@ -81,12 +81,12 @@ export const INITIAL_LESSONS: Lesson[] = [
     title: 'El Pequeño Asteroide',
     category: 'Cuentos y Retos',
     difficulty: 'Desafío',
-    description: 'Un microcuento completo para medir velocidad y constancia.',
+    description: 'Un microcuento completo para medir velocidad y constancia con mayúsculas y puntos.',
     lines: [
-      'había una vez una pequeña estrella',
-      'que quería iluminar todo el universo',
-      'con su lápiz mágico dibujaba constelaciones',
-      'y todos los planetas sonreían al verla'
+      'Había una vez una pequeña estrella.',
+      'Quería iluminar todo el universo.',
+      'Con su lápiz mágico dibujaba constelaciones.',
+      'Y todos los planetas sonreían al verla.'
     ],
     targetTimePerLineSec: 24,
     iconName: 'BookOpen'
@@ -96,12 +96,12 @@ export const INITIAL_LESSONS: Lesson[] = [
     title: 'Trabalenguas Cósmico',
     category: 'Cuentos y Retos',
     difficulty: 'Desafío',
-    description: 'Desafío de agilidad y precisión de trazo con palabras rítmicas.',
+    description: 'Desafío de agilidad y precisión de trazo con mayúsculas y puntos.',
     lines: [
-      'tres tristes tigres viajan en nave',
-      'el cielo estrellado reluce sin parar',
-      'la pluma de oro escribe ligera',
-      'un cometa veloz cruza el horizonte'
+      'Tres tristes tigres viajan en nave.',
+      'El cielo estrellado reluce sin parar.',
+      'La pluma de oro escribe ligera.',
+      'Un cometa veloz cruza el horizonte.'
     ],
     targetTimePerLineSec: 25,
     iconName: 'Zap'

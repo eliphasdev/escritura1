@@ -1,9 +1,12 @@
 /**
  * Web Speech API module: Text-to-Speech (TTS) and Speech-to-Text Recognition
+ * With synchronized syllable-by-syllable highlighting for reading and cursive writing practice.
  */
+import { parseSentenceSyllables, SyllableToken } from './spanishSyllables';
 
 // Global TTS state
 let voiceFeedbackEnabled = true;
+let autoReadEnabled = true;
 
 export function setVoiceFeedbackEnabled(enabled: boolean) {
   voiceFeedbackEnabled = enabled;
@@ -13,37 +16,179 @@ export function isVoiceFeedbackEnabled(): boolean {
   return voiceFeedbackEnabled;
 }
 
+export function setAutoReadEnabled(enabled: boolean) {
+  autoReadEnabled = enabled;
+}
+
+export function isAutoReadEnabled(): boolean {
+  return autoReadEnabled;
+}
+
+let activeTimers: number[] = [];
+
+export function stopSpeaking(): void {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    try {
+      window.speechSynthesis.cancel();
+    } catch {
+      // Ignored
+    }
+  }
+  activeTimers.forEach(t => clearTimeout(t));
+  activeTimers = [];
+}
+
 /**
- * Text-to-Speech in Spanish with friendly child-oriented pitch & rate
+ * Finds the best Spanish voice available in the browser
  */
-export function speakPhrase(text: string, priority: boolean = false): void {
+function getSpanishVoice(): SpeechSynthesisVoice | null {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  return (
+    voices.find(v => v.lang.startsWith('es') && (v.name.includes('Natural') || v.name.includes('Sabina') || v.name.includes('Lucia') || v.name.includes('Mónica') || v.name.includes('Jorge')))
+    || voices.find(v => v.lang.startsWith('es-CL') || v.lang.startsWith('es-ES') || v.lang.startsWith('es-419'))
+    || voices.find(v => v.lang.startsWith('es'))
+    || null
+  );
+}
+
+/**
+ * Standard Text-to-Speech in Spanish
+ */
+export function speakPhrase(text: string, priority: boolean = true, rate: number = 0.92): void {
   if (!voiceFeedbackEnabled || typeof window === 'undefined' || !('speechSynthesis' in window)) {
     return;
   }
 
   try {
     if (priority) {
-      window.speechSynthesis.cancel();
+      stopSpeaking();
     }
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'es-ES';
-    utterance.rate = 1.05; // Slightly lively rate
-    utterance.pitch = 1.25; // Cheerful friendly pitch for kids
+    utterance.rate = rate;
+    utterance.pitch = 1.15;
 
-    // Try finding a good Spanish voice
-    const voices = window.speechSynthesis.getVoices();
-    const spanishVoice = voices.find(v => v.lang.startsWith('es') && !v.name.includes('Google') && v.name.includes('Natural'))
-      || voices.find(v => v.lang.startsWith('es'))
-      || null;
-
-    if (spanishVoice) {
-      utterance.voice = spanishVoice;
+    const voice = getSpanishVoice();
+    if (voice) {
+      utterance.voice = voice;
     }
 
     window.speechSynthesis.speak(utterance);
   } catch (err) {
     console.warn('Speech synthesis error:', err);
+  }
+}
+
+/**
+ * Speaks a single syllable aloud when clicked by the child
+ */
+export function speakSyllable(syllableText: string): void {
+  const clean = syllableText.replace(/[^\wáéíóúüñ]/gi, '');
+  if (!clean) return;
+  speakPhrase(clean, true, 0.85);
+}
+
+/**
+ * Speaks an entire sentence while highlighting each syllable in sync
+ */
+export function speakSentenceWithSyllables(
+  sentence: string,
+  options: {
+    rate?: number;
+    onSyllableChange: (token: SyllableToken | null) => void;
+    onEnd?: () => void;
+  }
+): void {
+  if (!voiceFeedbackEnabled || typeof window === 'undefined' || !('speechSynthesis' in window)) {
+    options.onSyllableChange(null);
+    options.onEnd?.();
+    return;
+  }
+
+  stopSpeaking();
+
+  const { words, allSyllables } = parseSentenceSyllables(sentence);
+  if (allSyllables.length === 0) {
+    options.onSyllableChange(null);
+    options.onEnd?.();
+    return;
+  }
+
+  const rate = options.rate || 0.88;
+
+  try {
+    const utterance = new SpeechSynthesisUtterance(sentence);
+    utterance.lang = 'es-ES';
+    utterance.rate = rate;
+    utterance.pitch = 1.15;
+
+    const voice = getSpanishVoice();
+    if (voice) {
+      utterance.voice = voice;
+    }
+
+    // Base duration per syllable in milliseconds
+    // At rate 0.88, a standard syllable takes ~340ms; at rate 0.70 it takes ~440ms
+    const baseDuration = (330 / rate);
+
+    let cumulativeTime = 80; // Small initial speech lead-in delay
+
+    allSyllables.forEach((syl, idx) => {
+      // Syllable weight factor
+      let weight = 1.0;
+      if (syl.cleanText.length <= 2) {
+        weight = 0.85; // Short syllable (e.g. "mi", "la")
+      } else if (syl.cleanText.length >= 4 || /[áéíóú]/.test(syl.cleanText)) {
+        weight = 1.2; // Accented or consonant-cluster syllable (e.g. "bril", "nau", "más")
+      }
+
+      // If word ends with punctuation, give slightly more pause
+      if (syl.text.includes('.') || syl.text.includes(',') || syl.text.includes('!')) {
+        weight += 0.45;
+      }
+
+      const sylDuration = baseDuration * weight;
+      const scheduledTime = cumulativeTime;
+
+      // Highlight this syllable
+      const timer = window.setTimeout(() => {
+        options.onSyllableChange(syl);
+      }, scheduledTime);
+
+      activeTimers.push(timer);
+      cumulativeTime += sylDuration;
+    });
+
+    // Cleanup timer at the end of phrase
+    const endTimer = window.setTimeout(() => {
+      options.onSyllableChange(null);
+      options.onEnd?.();
+    }, cumulativeTime + 100);
+    activeTimers.push(endTimer);
+
+    // On speech end event
+    utterance.onend = () => {
+      // Leave slight buffer before clearing
+      setTimeout(() => {
+        options.onSyllableChange(null);
+        options.onEnd?.();
+      }, 150);
+    };
+
+    utterance.onerror = () => {
+      stopSpeaking();
+      options.onSyllableChange(null);
+      options.onEnd?.();
+    };
+
+    window.speechSynthesis.speak(utterance);
+  } catch (err) {
+    console.warn('Speech synthesis with syllables error:', err);
+    stopSpeaking();
+    options.onSyllableChange(null);
+    options.onEnd?.();
   }
 }
 
@@ -82,6 +227,7 @@ export type VoiceCommandHandler = {
   onPause?: () => void;
   onResume?: () => void;
   onRestartLine?: () => void;
+  onReadPhrase?: () => void;
   onClearCanvas?: () => void;
   onTranscript?: (text: string) => void;
   onError?: (error: string) => void;
@@ -161,6 +307,19 @@ export class VoiceRecognitionManager {
 
   private processCommand(text: string) {
     if (!text) return;
+
+    // Command: Read phrase out loud ("leer", "lee la frase", "qué dice", "escuchar")
+    if (
+      text.includes('leer') || 
+      text.includes('lee') || 
+      text.includes('escuchar') || 
+      text.includes('qué dice') || 
+      text.includes('que dice') ||
+      text.includes('dilo')
+    ) {
+      this.handlers.onReadPhrase?.();
+      return;
+    }
 
     // Command: Start line
     if (

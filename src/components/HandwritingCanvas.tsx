@@ -338,7 +338,7 @@ export const HandwritingCanvas: React.FC<HandwritingCanvasProps> = ({
         {/* Ghost Cursive Text to Trace (if enabled) */}
         {showGhostGuide && guideText && (
           <div className="absolute inset-0 pointer-events-none flex items-center justify-start px-6 select-none z-0">
-            <p className="font-cursive text-5xl sm:text-6xl text-slate-700/50 tracking-wide translate-y-1">
+            <p className="font-cursive text-5xl sm:text-6xl text-slate-700/50 translate-y-1">
               {guideText}
             </p>
           </div>

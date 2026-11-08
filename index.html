@@ -2,16 +2,27 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>AstroLetras - Caligrafía Espacial con Letra Ligada</title>
     <meta name="description" content="Aplicación gamificada para que niños de 7 años practiquen la escritura en letra ligada con cronómetro línea a línea, superación de récords personales, control por voz y modos de cuaderno o pizarra digital." />
     <meta property="og:title" content="AstroLetras - Caligrafía Espacial con Letra Ligada" />
     <meta property="og:description" content="Aplicación gamificada para que niños de 7 años practiquen la escritura en letra ligada con cronómetro línea a línea, superación de récords personales, control por voz y modos de cuaderno o pizarra digital." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- PWA / Android WebAPK Meta Tags -->
+    <meta name="theme-color" content="#020617" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AstroLetras" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+
+    <!-- Google Fonts for Continuous Cursive and UI -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Edu+SA+Beginner:wght@400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;500;600;700;800&family=Playwrite+AR:wght@100..400&family=Playwrite+CL:wght@100..400&family=Playwrite+ES:wght@100..400&display=swap" rel="stylesheet">
   </head>
   <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-amber-400 selection:text-slate-950 overflow-x-hidden min-h-screen">
     <div id="root"></div>

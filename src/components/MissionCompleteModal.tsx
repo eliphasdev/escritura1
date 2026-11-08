@@ -110,7 +110,7 @@ export const MissionCompleteModal: React.FC<MissionCompleteModalProps> = ({
                   <span className="w-5 h-5 rounded-full bg-slate-800 text-slate-300 text-[10px] flex items-center justify-center font-bold shrink-0">
                     {i + 1}
                   </span>
-                  <span className="font-cursive text-sm text-slate-200 truncate">
+                  <span className="font-cursive text-base sm:text-lg text-slate-200 truncate leading-relaxed">
                     {rec.text}
                   </span>
                 </div>

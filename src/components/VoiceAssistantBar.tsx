@@ -59,7 +59,7 @@ export const VoiceAssistantBar: React.FC<VoiceAssistantBarProps> = ({
             {isListening ? 'Escuchando tus órdenes:' : 'Control por voz desactivado'}
           </span>
           <span className="text-[11px] text-slate-400">
-            Di: <strong className="text-amber-300">"¡Empezar!"</strong> para el cronómetro o <strong className="text-emerald-300">"¡Listo!"</strong> al terminar la línea
+            Di: <strong className="text-amber-300">"¡Empezar!"</strong>, <strong className="text-sky-300">"¡Lee la frase!"</strong> o <strong className="text-emerald-300">"¡Listo!"</strong> al terminar
           </span>
         </div>
       </div>

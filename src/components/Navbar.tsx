@@ -1,6 +1,7 @@
 import React from 'react';
 import { Rocket, Plus } from 'lucide-react';
 import { CosmicRank } from '../types';
+import { PWAInstallButton } from './PWAInstallButton';
 
 interface NavbarProps {
   activeTab: 'missions' | 'free-canvas' | 'records' | 'my-texts';
@@ -79,8 +80,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
         </nav>
 
-        {/* Zone 3: 1 primary action button + subtle status */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Zone 3: PWA Install + 1 primary action button + subtle status */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <PWAInstallButton />
+
           <div className="hidden lg:flex items-center gap-2 text-xs text-slate-400 font-child">
             <span className="text-amber-300 font-semibold flex items-center gap-1">
               ★ {totalStars}

@@ -21,6 +21,26 @@ export const CustomTextModal: React.FC<CustomTextModalProps> = ({
 
   if (!isOpen) return null;
 
+  // Formats sentence with uppercase initial and final period
+  const formatSentence = (str: string): string => {
+    let clean = str.trim();
+    if (!clean) return '';
+    // Capitalize first character
+    clean = clean.charAt(0).toUpperCase() + clean.slice(1);
+    // Capitalize proper celestial bodies if present
+    clean = clean.replace(/\btierra\b/gi, 'Tierra')
+                 .replace(/\bluna\b/gi, 'Luna')
+                 .replace(/\bsol\b/gi, 'Sol')
+                 .replace(/\bmarte\b/gi, 'Marte')
+                 .replace(/\bsaturno\b/gi, 'Saturno')
+                 .replace(/\bjúpiter\b/gi, 'Júpiter');
+    // Ensure ends in period, exclamation, or question mark
+    if (!/[.!?]$/.test(clean)) {
+      clean += '.';
+    }
+    return clean;
+  };
+
   // Split text into lines: either by existing newlines or by smart sentence/comma cuts
   const getProcessedLines = (input: string): string[] => {
     if (!input.trim()) return [];
@@ -28,19 +48,19 @@ export const CustomTextModal: React.FC<CustomTextModalProps> = ({
     // If user entered explicit newlines, respect them
     const rawLines = input.split('\n').map(l => l.trim()).filter(l => l.length > 0);
     if (rawLines.length > 1) {
-      return rawLines.slice(0, 6); // Max 6 lines per mission
+      return rawLines.slice(0, 6).map(formatSentence);
     }
 
     // Otherwise split by sentence or commas if long
     const single = input.trim();
     if (single.length <= 35) {
-      return [single];
+      return [formatSentence(single)];
     }
 
     // Split by punctuation
     const chunks = single.split(/(?<=[.,;?!])\s+/).filter(c => c.length > 0);
     if (chunks.length > 1) {
-      return chunks.slice(0, 6);
+      return chunks.slice(0, 6).map(formatSentence);
     }
 
     // Fallback: chunk by words ~25 chars
@@ -58,7 +78,7 @@ export const CustomTextModal: React.FC<CustomTextModalProps> = ({
     }
     if (current) lines.push(current.trim());
 
-    return lines.slice(0, 6);
+    return lines.slice(0, 6).map(formatSentence);
   };
 
   const previewLines = getProcessedLines(rawText);
@@ -71,28 +91,28 @@ export const CustomTextModal: React.FC<CustomTextModalProps> = ({
       {
         title: 'El Robot Amigo',
         lines: [
-          'el pequeño robot mira las estrellas',
-          'su batería se llena con luz solar',
-          'saluda a todos los planetas amigos',
-          'escribe cartas con tinta plateada'
+          'El pequeño robot mira las estrellas.',
+          'Su batería se llena con luz solar.',
+          'Saluda a todos los planetas amigos.',
+          'Escribe cartas con tinta plateada.'
         ]
       },
       {
         title: 'Aventura en Saturno',
         lines: [
-          'los anillos de saturno brillan de oro',
-          'nuestra nave espacial da tres vueltas',
-          'los cometas saludan al pasar veloces',
-          'regresamos contentos a nuestra base'
+          'Los anillos de Saturno brillan de oro.',
+          'Nuestra nave espacial da tres vueltas.',
+          'Los cometas saludan al pasar veloces.',
+          'Regresamos contentos a nuestra base.'
         ]
       },
       {
         title: 'Mascotas de las Galaxias',
         lines: [
-          'un perrito astronauta salta en la luna',
-          'lleva un traje blanco muy brillante',
-          'ladra alegre al ver la tierra azul',
-          'sueña con huesos de polvo estelar'
+          'Un perrito astronauta salta en la Luna.',
+          'Lleva un traje blanco muy brillante.',
+          'Ladra alegre al ver la Tierra azul.',
+          'Sueña con huesos de polvo estelar.'
         ]
       }
     ];

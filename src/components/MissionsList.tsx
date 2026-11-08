@@ -126,7 +126,7 @@ export const MissionsList: React.FC<MissionsListProps> = ({
                   <span className="text-[10px] text-slate-500 block font-child mb-1">
                     Muestra de letra ligada:
                   </span>
-                  <p className="font-cursive text-xl text-amber-200 truncate select-none">
+                  <p className="font-cursive text-2xl text-amber-200 truncate select-none leading-relaxed">
                     {lesson.lines[0]}
                   </p>
                 </div>

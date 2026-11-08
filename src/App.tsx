@@ -112,6 +112,14 @@ export default function App() {
       onRestartLine: () => {
         setIsTimerRunning(false);
       },
+      onReadPhrase: () => {
+        if (activeLessonRef.current) {
+          const text = activeLessonRef.current.lines[activeLineIndexRef.current];
+          if (text) {
+            speakPhrase(text, true, 0.9);
+          }
+        }
+      },
       onTranscript: (text) => {
         setLastVoiceTranscript(text);
       },
@@ -131,11 +139,12 @@ export default function App() {
     setSessionLineRecords([]);
     setActiveSessionResult(null);
 
-    // Initial encouraging speech prompt
+    // Initial encouraging speech prompt that reads the first phrase
+    const firstLine = lesson.lines[0];
     if (mode === 'notebook') {
-      speakPhrase(`¡Misión iniciada! Toma tu lápiz y cuaderno. Cuando estés listo, di ¡Empezar! o presiona el botón.`, true);
+      speakPhrase(`¡Misión iniciada! Primera frase a copiar: ${firstLine}`, true, 0.9);
     } else {
-      speakPhrase(`¡Misión en pantalla iniciada! Escribe o calca con tu dedo o ratón. Di ¡Empezar! para iniciar el cronómetro.`, true);
+      speakPhrase(`¡Misión en pantalla iniciada! Primera frase a copiar: ${firstLine}`, true, 0.9);
     }
   };
 
@@ -183,12 +192,13 @@ export default function App() {
     if (nextLineIndex < activeLesson.lines.length) {
       setActiveLineIndex(nextLineIndex);
       
-      // Cheerful voice feedback
+      // Cheerful voice feedback announcing the next sentence
       const secondsVal = (durationMs / 1000).toFixed(1);
+      const nextLineText = activeLesson.lines[nextLineIndex];
       if (isNewPB) {
-        speakPhrase(`¡Nuevo récord personal! Tardaste ${secondsVal} segundos. ¡A por la siguiente línea!`);
+        speakPhrase(`¡Nuevo récord personal! Tardaste ${secondsVal} segundos. Siguiente frase: ${nextLineText}`, true, 0.9);
       } else {
-        speakPhrase(`¡Línea lista en ${secondsVal} segundos! Siguiente línea preparada.`);
+        speakPhrase(`¡Línea lista en ${secondsVal} segundos! Siguiente frase: ${nextLineText}`, true, 0.9);
       }
     } else {
       // Entire Mission Completed!
@@ -387,6 +397,7 @@ export default function App() {
                 <SpaceTimer
                   currentLineIndex={activeLineIndex}
                   totalLines={activeLesson.lines.length}
+                  currentLineText={activeLesson.lines[activeLineIndex] || ''}
                   personalBestMs={getLinePersonalBest(activeLesson.id, activeLineIndex)}
                   isRunning={isTimerRunning}
                   onStart={handleStartLine}
